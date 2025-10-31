@@ -4,40 +4,41 @@
     <h1>Регистрация</h1>
     <form action="" method="post">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.first_name.label_tag }}</td>
-                <td>{{ form.first_name }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.last_name.label_tag }}</td>
-                <td>{{ form.last_name }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.patronymic.label_tag }}</td>
-                <td>{{ form.patronymic }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.email.label_tag }}</td>
-                <td>{{ form.email }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password1.label_tag }}</td>
-                <td>{{ form.password1 }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password2.label_tag }}</td>
-                <td>{{ form.password2 }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.agreement.label_tag }}</td>
-                <td>{{ form.agreement }}</td>
-            </tr>
-        </table>
+{#        <table>#}
+{#            <tr>#}
+{#                <td>{{ form.username.label_tag }}</td>#}
+{#                <td>{{ form.username }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.first_name.label_tag }}</td>#}
+{#                <td>{{ form.first_name }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.last_name.label_tag }}</td>#}
+{#                <td>{{ form.last_name }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.patronymic.label_tag }}</td>#}
+{#                <td>{{ form.patronymic }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.email.label_tag }}</td>#}
+{#                <td>{{ form.email }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.password1.label_tag }}</td>#}
+{#                <td>{{ form.password1 }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.password2.label_tag }}</td>#}
+{#                <td>{{ form.password2 }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.agreement.label_tag }}</td>#}
+{#                <td>{{ form.agreement }}</td>#}
+{#            </tr>#}
+{#        </table>#}
+        {{ form.as_p }}
        <input type="submit" class="log" value="Зарегистрироваться" />
     </form>
 

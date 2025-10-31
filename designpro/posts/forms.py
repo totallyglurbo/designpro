@@ -27,13 +27,13 @@ class RegistrationForm(forms.ModelForm):
     def clean_patronymic_name(self):
         patronymic_name = self.cleaned_data['first_name']
         if not re.match(r'^[А-яёЁ -]+$', patronymic_name):
-            raise forms.ValidationError('Please enter a valid name.')
+            raise forms.ValidationError('Отчество должно содержать только кириллицу')
         return patronymic_name
 
     def clean_username(self):
         username = self.cleaned_data['username']
         if not re.match(r'^[A-z -]', username):
-            raise forms.ValidationError('Please enter a valid username.')
+            raise forms.ValidationError('Имя пользователя должно содержать только латиницу.')
         return username
 
     def clean_email(self):
@@ -45,7 +45,7 @@ class RegistrationForm(forms.ModelForm):
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError('Passwords do not match.')
+            raise forms.ValidationError('Пароли не совпадают.')
         return cleaned_data
 
     def save(self, commit=True):
