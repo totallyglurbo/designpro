@@ -59,7 +59,7 @@ class RegistrationForm(forms.ModelForm):
         model = ReallyUser
         fields = ('username', 'first_name', 'last_name', 'password1', 'patronymic', 'email', 'agreement')
 
-#
+
 
 
 
