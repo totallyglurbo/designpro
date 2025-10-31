@@ -1,5 +1,11 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class ReallyUser(AbstractUser):
+    agreement = models.BooleanField(default=False, verbose_name='Приняли соглашение?')
+
+    class Meta(AbstractUser.Meta):
+        pass
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -20,6 +26,7 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-creation_date']
+
 
 class Category(models.Model):
     title = models.CharField(max_length=255)

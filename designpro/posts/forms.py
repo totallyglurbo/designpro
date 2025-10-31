@@ -1,27 +1,27 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 import re
 
-class RegistrationForm(UserCreationForm):
-    login = forms.CharField(max_length=150, required=True, unique=True)
-    first_name = forms.CharField(max_length=50, required=True)
-    last_name = forms.CharField(max_length=50, required=True)
-    patronymic = forms.CharField(max_length=50, required=True)
-    email = forms.EmailField(max_length=254, required=True)
+
+class RegistrationForm(forms.ModelForm):
+    username = forms.CharField(max_length=150, required=True, label="Имя пользователя")
+    first_name = forms.CharField(max_length=50, required=True, label="Имя")
+    last_name = forms.CharField(max_length=50, required=True, label="Фамилия")
+    patronymic = forms.CharField(max_length=50, required=True, label="Отчество")
+    email = forms.EmailField(max_length=254, required=True, label="Электронная почта")
     password1 = forms.CharField(label='Password', required=True, widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirm', required=True, widget=forms.PasswordInput)
-    agreement = forms.BooleanField(required=True)
+    agreement = forms.BooleanField(required=True, label="Соглашение")
 
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
         if not re.match(r'^[А-яёЁ -]+$', first_name):
-            raise forms.ValidationError('Please enter a valid name.')
+            raise forms.ValidationError('Имя должно содержать только кириллицу.')
         return first_name
 
     def clean_last_name(self):
         last_name = self.cleaned_data['last_name']
         if not re.match(r'^[А-яёЁ -]+$', last_name):
-            raise forms.ValidationError('Please enter a valid name.')
+            raise forms.ValidationError('Фамилия должна содержать только кириллицу.')
         return last_name
 
     def clean_patronymic_name(self):
@@ -30,11 +30,11 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError('Please enter a valid name.')
         return patronymic_name
 
-    def clean_login(self):
-        login = self.cleaned_data['login']
-        if not re.match(r'^[A-z -]', login):
-            raise forms.ValidationError('Please enter a valid login.')
-        return login
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if not re.match(r'^[A-z -]', username):
+            raise forms.ValidationError('Please enter a valid username.')
+        return username
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -47,6 +47,15 @@ class RegistrationForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError('Passwords do not match.')
         return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        if commit:
+            user.save()
+        return user
+
+
 
 
 
