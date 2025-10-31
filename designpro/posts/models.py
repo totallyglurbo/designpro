@@ -2,10 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class ReallyUser(AbstractUser):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    patronymic = models.CharField(max_length=50, null=True, blank=True)
-    email = models.EmailField(unique=True)
     agreement = models.BooleanField(default=False, verbose_name='Приняли соглашение?')
 
     class Meta(AbstractUser.Meta):

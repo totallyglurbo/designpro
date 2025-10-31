@@ -2,9 +2,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
-
-from .models import Post, ReallyUser
+from .models import Post
 from .forms import RegistrationForm
 
 
@@ -18,14 +16,20 @@ class TheLoginView(LoginView):
     template_name = 'login.html'
 
 
-class TheRegisterView(CreateView):
-    model = ReallyUser
-    form_class = RegistrationForm
-    success_url = '/'
-    template_name = 'register.html'
+
+def register_user(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = RegistrationForm(request.POST)
+    return render(request, 'register.html', {'form': form})
+
 
 @login_required
-def profile_view(request):
+def profile(request):
     return render(request, 'profile.html')
 
 

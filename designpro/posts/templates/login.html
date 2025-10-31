@@ -1,33 +1,15 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-{% if form.errors %}
-  <p>Ваш логин и пароль не совпали. Попробуйте ещё раз.</p>
-{% endif %}
-
-{% if next %}
-  {% if user.is_authenticated %}
-    <p>У вас нет доступа к этой странице. Пожалуйста, войдите с правильного аккаунта.</p>
-  {% else %}
-    <p>Пожалуйста, войдите в аккаунт.</p>
-  {% endif %}
-{% endif %}
-
-<form method="post" action="{% url 'login' %}">
+<h2>Вход</h2>
+{% if user.is_authenticated %}
+<p>Вы уже выполнили вход.</p>
+{% else %}
+<form method="post">
 {% csrf_token %}
-<table>
 
-<tr>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</tr>
-
-<tr>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" class="log" value="Войти" />
+<input type="hidden" name="next" value="{{ next }}">
+<input type="submit" value="Зарегистрироваться" />
 </form>
+{% endif %}
 {% endblock %}
