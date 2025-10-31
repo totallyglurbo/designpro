@@ -1,5 +1,6 @@
 from django import forms
 import re
+from .models import ReallyUser
 
 
 class RegistrationForm(forms.ModelForm):
@@ -8,9 +9,8 @@ class RegistrationForm(forms.ModelForm):
     last_name = forms.CharField(max_length=50, required=True, label="Фамилия")
     patronymic = forms.CharField(max_length=50, required=True, label="Отчество")
     email = forms.EmailField(max_length=254, required=True, label="Электронная почта")
-    password1 = forms.CharField(label='Password', required=True, widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirm', required=True, widget=forms.PasswordInput)
-    agreement = forms.BooleanField(required=True, label="Соглашение")
+    password1 = forms.CharField(label='Пароль', required=True, widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Повторите пароль', required=True, widget=forms.PasswordInput)
 
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
@@ -54,6 +54,10 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+    class Meta:
+        model = ReallyUser
+        fields = ('username', 'first_name', 'last_name', 'password1', 'patronymic', 'email', 'agreement')
 
 
 
