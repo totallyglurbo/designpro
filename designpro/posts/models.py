@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 class ReallyUser(AbstractUser):
     first_name = models.CharField(max_length=50)
@@ -13,15 +14,15 @@ class ReallyUser(AbstractUser):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
     description = models.TextField()
+    post_image = models.ImageField(upload_to='posts/', null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     POST_STATUS = (
         ('n', 'Новая'),
         ('a', 'Принято в работу'),
         ('d', 'Выполнено')
-
     )
 
     status = models.CharField(max_length=1, choices=POST_STATUS, default='n')
@@ -38,3 +39,4 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+

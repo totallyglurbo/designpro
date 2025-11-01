@@ -1,5 +1,8 @@
 from django import forms
 import re
+
+from django.core.exceptions import ValidationError
+
 from .models import ReallyUser
 
 
@@ -45,8 +48,10 @@ class RegistrationForm(forms.ModelForm):
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError('Пароли не совпадают.')
-        return cleaned_data
+            errors = {'password2': ValidationError(
+                'Пароли не совпадают.', code='password_mismatch')}
+            raise ValidationError(errors)
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -58,7 +63,6 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = ReallyUser
         fields = ('username', 'first_name', 'last_name', 'password1', 'patronymic', 'email', 'agreement')
-
 
 
 
